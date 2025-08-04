@@ -1,0 +1,47 @@
+C:\Windows\System32\curl.exe -X POST -F "pdf_file=@signed.pdf 
+http://localhost:5000/check_signature
+
+Curl 
+
+C:\Users\hamza.demir>where curl
+C:\WINDOWS\System32\curl.exe
+
+Inwoke WebRequests
+
+
+# API URL'sini tanımlayın
+$uri = "http://localhost:5000/check_signature"
+
+# Yüklenecek dosyanın yolunu tanımlayın
+$filePath = ".\test_document.pdf"
+
+# Dosya içeriğini byte dizisi olarak oku
+$fileBytes = [System.IO.File]::ReadAllBytes($filePath)
+
+# Multipart/form-data sınırını (boundary) rastgele oluştur
+$boundary = [System.Guid]::NewGuid().ToString()
+
+# Satır sonu karakterleri
+$crlf = "`r`n"
+
+# HTTP Body'sini oluşturmaya başla
+$body = "--$boundary$crlf"
+# Dosya için Content-Disposition başlığını ekle. 'name="pdf_file"' kısmı çok önemli!
+$body += "Content-Disposition: form-data; name=`"pdf_file`"; filename=`"test_document.pdf`"$crlf"
+# Dosyanın Content-Type'ını belirt (PDF için application/pdf, genel için application/octet-stream)
+$body += "Content-Type: application/pdf$crlf$crlf" # Veya application/octet-stream
+# Oluşturulan body string'ini byte dizisine dönüştür
+$bodyBytes = [System.Text.Encoding]::ASCII.GetBytes($body)
+
+# Dosya içeriğini body'ye ekle
+$bodyBytes += $fileBytes
+
+# Body'nin sonunu ekle
+$bodyBytes += [System.Text.Encoding]::ASCII.GetBytes("$crlf--$boundary--$crlf")
+
+# HTTP başlıklarını oluştur
+$headers = @{}
+$headers."Content-Type" = "multipart/form-data; boundary=$boundary"
+
+# Invoke-WebRequest komutunu çalıştır
+Invoke-WebRequest -Uri $uri -Method POST -Body $bodyBytes -Headers $headers -UseBasicParsing

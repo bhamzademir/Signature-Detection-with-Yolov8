@@ -1,0 +1,1 @@
+-e "output_files/\nruns/\ntemp_files/\nData_tbc/\n*.pdf\n*.tif\n*.pt\n*.pb\n*.pth\n*.jpg\n*.jpeg\n*.png" 
