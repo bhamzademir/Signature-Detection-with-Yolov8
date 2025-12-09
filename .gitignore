@@ -1,1 +1,26 @@
--e "output_files/\nruns/\ntemp_files/\nData_tbc/\n*.pdf\n*.tif\n*.pt\n*.pb\n*.pth\n*.jpg\n*.jpeg\n*.png" 
+# Çıktılar
+output_files/
+temp_files/
+runs/
+Data_tbc/
+
+# Ortam / cache
+venv/
+__pycache__/
+.DS_Store
+
+# Ağır modeller
+*.pt
+*.pb
+*.pth
+*.onnx
+*.log
+
+# (İstersen) büyük dokümanlar
+# *.pdf
+# *.tif
+# *.jpg
+# *.jpeg
+# *.png
+
+ 
