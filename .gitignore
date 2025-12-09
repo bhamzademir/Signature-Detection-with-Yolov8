@@ -24,3 +24,10 @@ __pycache__/
 # *.png
 
  
+models/
+mrzData/
+pp_ocr_models/
+test_belgeler/
+yolo_train/
+yolo-Weights/
+venvSign/
